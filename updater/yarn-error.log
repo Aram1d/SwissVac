@@ -1,0 +1,41 @@
+Arguments: 
+  /usr/bin/node /home/wsu/.cache/node/corepack/yarn/1.22.19/bin/yarn.js add pupetter
+
+PATH: 
+  /usr/local/sbin:/usr/local/bin:/usr/bin:/opt/cuda/bin:/opt/cuda/nsight_compute:/opt/cuda/nsight_systems/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  21.6.1
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/pupetter: Not found
+      at params.callback [as _callback] (/home/wsu/.cache/node/corepack/yarn/1.22.19/lib/cli.js:66145:18)
+      at self.callback (/home/wsu/.cache/node/corepack/yarn/1.22.19/lib/cli.js:140890:22)
+      at Request.emit (node:events:519:28)
+      at Request.<anonymous> (/home/wsu/.cache/node/corepack/yarn/1.22.19/lib/cli.js:141862:10)
+      at Request.emit (node:events:519:28)
+      at IncomingMessage.<anonymous> (/home/wsu/.cache/node/corepack/yarn/1.22.19/lib/cli.js:141784:12)
+      at Object.onceWrapper (node:events:633:28)
+      at IncomingMessage.emit (node:events:531:35)
+      at endReadableNT (node:internal/streams/readable:1696:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+npm manifest: 
+  {
+    "name": "swissVacUpdater",
+    "version": "1.0.0",
+    "main": "index.js",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

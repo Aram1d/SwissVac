@@ -1,0 +1,19 @@
+
+.pdfPage{
+    position: absolute !important;
+    top: 0 !important;
+    left: 50%;
+    transform: translateX(-50%);
+    visibility: hidden;
+}
+
+.visiblePdfPage{
+    z-index: calc(100 * var(--trigger-ratio));
+    visibility: visible;
+}
+
+.activePdfPage{
+    left: calc(50% + var(--page-displacement));
+    z-index: 150;
+    visibility: visible;
+}

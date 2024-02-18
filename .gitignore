@@ -1,0 +1,8 @@
+/updater/.env
+/updater/dist/
+/fakeBackEnd/dist/
+/fakeBackEnd/node_modules/
+/fakeBackEnd/.env
+/fakeBackEnd/public/*
+/updater/node_modules/
+/node_modules/
