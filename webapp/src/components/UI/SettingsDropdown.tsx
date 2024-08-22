@@ -89,7 +89,7 @@ export const SettingsDropdown = () => {
           <Menu.Divider />
           <Menu.Label>
             <Text c="dimmed" style={{ position: 'relative' }}>
-              SwissVac v1.1
+              SwissVac v1.2
             </Text>
           </Menu.Label>
         </Menu.Dropdown>

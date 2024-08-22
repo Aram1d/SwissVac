@@ -1,6 +1,7 @@
 import { pdfjs } from 'react-pdf';
 import { PDFDocumentProxy } from 'pdfjs-dist';
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL('/pdf.worker.min.mjs', import.meta.url).href;
 
 export async function loadVfrManual(blob: Blob) {
   const pdfDocProxy = await pdfjs.getDocument(await blob.arrayBuffer()).promise;
