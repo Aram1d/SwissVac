@@ -12,6 +12,7 @@
     "puppeteer": "^22.0.0"
   },
   "scripts": {
-    "start": "tsc && node ./dist/index.js"
+    "start": "bun run src/index.ts",
+    "compiled-run": "tsc && node dist/index.js"
   }
 }
