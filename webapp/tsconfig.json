@@ -17,7 +17,14 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@/*": ["./src/*"],
+      "@api": ["./src/api"],
+      "@api/*": ["./src/api/*"],
+      "@components": ["./src/components"],
+      "@components/*": ["./src/components/*"],
+      "@lib": ["./src/lib"],
+      "@lib/*": ["./src/lib/*"],
+      "@pages": ["./src/pages"],
+      "@pages/*": ["./src/pages/*"],
       "@test-utils": ["./test-utils"]
     }
   },

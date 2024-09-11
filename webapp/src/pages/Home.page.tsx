@@ -12,13 +12,9 @@ import {
   IconZoomPan,
 } from '@tabler/icons-react';
 import UaParser from 'ua-parser-js';
-import { PdfPageViewer } from '@/components/PdfPageViewer';
-import { useComputedCache } from '@/api/queries';
-import { emptyArray, useSmallScreen } from '@/utils/utils';
-import { StdContainer } from '@/components/UI/Containers';
-import { SettingsDropdown } from '@/components/UI/SettingsDropdown';
-import { useStore } from '@/api/store';
-import { PdfPageViewerTablet } from '@/components/PdfPageViewerTablet';
+import { useComputedCache, useStore } from '@api';
+import { PdfPageViewer, PdfPageViewerTablet, StdContainer, SettingsDropdown } from '@components';
+import { emptyArray, useSmallScreen } from '@lib';
 
 const isMobile = ['console', 'mobile', 'tablet', 'smarttv', 'wearable', 'embedded'].includes(
   new UaParser().getDevice().type ?? ''

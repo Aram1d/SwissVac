@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { storeIDBManual } from '@/api/indexDb';
-import { useStore } from '@/api/store';
+import { storeIDBManual, useStore } from '@api';
 
 export const useUpdateRevisions = () => {
   const [progress, setProgress] = useState<Record<string, number>>({});

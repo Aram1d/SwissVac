@@ -1,6 +1,6 @@
 import { useLayoutEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useStore } from '@/api/store';
+import { useStore } from '@api';
 
 export const UrlTokenSetter = () => {
   const { urlToken } = useParams();

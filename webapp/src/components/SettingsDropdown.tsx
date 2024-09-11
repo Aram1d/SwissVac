@@ -9,13 +9,9 @@ import {
   IconSunHigh,
   IconTrash,
 } from '@tabler/icons-react';
-import { useStore } from '@/api/store';
-import { dropDb } from '@/api/indexDb';
-import { SettingsDrawer } from '@/components/UI/SettingsDrawer';
-
-import { QueryKey } from '@/api/queries';
-import { queryClient } from '@/App';
-import { useSmallScreen } from '@/utils/utils';
+import { dropDb, queryClient, QueryKey, useStore } from '@api';
+import { SettingsDrawer } from '@components';
+import { useSmallScreen } from '@lib';
 
 const embIconStyles = { width: rem(14), height: rem(14) };
 

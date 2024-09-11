@@ -1,8 +1,6 @@
 import { Button, Drawer, Group, List, Skeleton, Stack, TextInput, Title } from '@mantine/core';
-import { useStore } from '@/api/store';
-import { useListRevisions } from '@/api/queries';
-import { fileDownloader, getRevEffectiveDate, isRevCoeval, isRevObsolete } from '@/utils/utils';
-import { deleteIDBManual, getIDBManual } from '@/api/indexDb';
+import { deleteIDBManual, getIDBManual, useStore, useListRevisions } from '@api';
+import { fileDownloader, getRevEffectiveDate, isRevCoeval, isRevObsolete } from '@lib';
 
 type SettingsDrawerProps = {
   opened: boolean;

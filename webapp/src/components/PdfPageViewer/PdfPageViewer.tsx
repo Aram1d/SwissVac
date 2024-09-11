@@ -2,10 +2,8 @@ import { Document as PdfDocument, Page } from 'react-pdf';
 import { Alert, Box, Loader, Stack, Title } from '@mantine/core';
 import { useViewportSize } from '@mantine/hooks';
 import { IconInfoCircle } from '@tabler/icons-react';
-import { useComputedCache } from '@/api/queries';
-import { useStore } from '@/api/store';
-
 import 'swiper/css';
+import { useComputedCache, useStore } from '@api';
 
 type PdfPageViewerProps = {
   viewPort: { width: number; height: number };

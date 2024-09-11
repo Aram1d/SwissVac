@@ -1,7 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { HomePage } from '@/pages/Home.page';
-import { UrlTokenSetter } from '@/components/UI/UrlTokenSetter';
-import { GlobalOutletPage } from '@/pages/GlobalOutlet.page';
+import { GlobalOutletPage, HomePage } from '@pages';
+import { UrlTokenSetter } from '@components';
 
 const router = createBrowserRouter([
   {

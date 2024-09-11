@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { createJSONStorage, devtools, persist } from 'zustand/middleware';
 import type {} from '@redux-devtools/extension';
-import { buildAerodromeData, buildManualSections, OutlineMap } from '@/utils/pdfUtils';
+import { buildAerodromeData, buildManualSections, OutlineMap } from '@lib';
 
 export type Cache = {
   indexes: OutlineMap;

@@ -1,9 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useDisclosure } from '@mantine/hooks';
-import { getIDBManual, listIDBManuals } from '@/api/indexDb';
-import { Cache, useStore } from '@/api/store';
-import { shouldUpdateRevs } from '@/utils/utils';
-import { loadVfrManual } from '@/utils/pdfUtils';
+import { Cache, getIDBManual, listIDBManuals, useStore } from '@api';
+import { loadVfrManual, shouldUpdateRevs } from '@lib';
 
 export enum QueryKey {
   listRevisions = 'listRevisions',

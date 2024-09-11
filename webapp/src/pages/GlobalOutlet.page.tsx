@@ -13,12 +13,15 @@ import {
   Title,
 } from '@mantine/core';
 import { IconCheck, IconExclamationCircle, IconLoader2 } from '@tabler/icons-react';
-import { useStore } from '@/api/store';
-import { useComputedCache, useListRevisions } from '@/api/queries';
-import { useUpdateRevisions } from '@/api/mutations';
-import { getCoevalRevFromList } from '@/utils/utils';
-import { queryClient } from '@/App';
-import { AuthSetter } from '@/components/AuthSetter';
+import {
+  queryClient,
+  useComputedCache,
+  useListRevisions,
+  useStore,
+  useUpdateRevisions,
+} from '@api';
+import { AuthSetter } from '@components';
+import { getCoevalRevFromList } from '@lib';
 
 export const GlobalOutletPage = () => {
   const { setRevision, clearCache } = useStore(({ setRevision, clearCache }) => ({
@@ -142,20 +145,18 @@ const iconStyles = { width: rem(16), height: rem(16), marginBottom: rem(2) };
 
 const LoadCheckItem = ({ isLoading, error, isSuccess, texts }: LoadingItemProps) => {
   const normalText = isLoading ? texts?.loading : texts.loaded;
-  return (
-    (error || isLoading || isSuccess) && (
-      <ListItem
-        icon={
-          error ? (
-            <IconExclamationCircle style={iconStyles} />
-          ) : (
-            isSuccess && <IconCheck style={iconStyles} />
-          )
-        }
-        c={error ? 'red' : isSuccess ? 'green' : undefined}
-      >
-        <Text c="dimmed">{error?.message ?? normalText}</Text>
-      </ListItem>
-    )
-  );
+  return error || isLoading || isSuccess ? (
+    <ListItem
+      icon={
+        error ? (
+          <IconExclamationCircle style={iconStyles} />
+        ) : (
+          isSuccess && <IconCheck style={iconStyles} />
+        )
+      }
+      c={error ? 'red' : isSuccess ? 'green' : undefined}
+    >
+      <Text c="dimmed">{error?.message ?? normalText}</Text>
+    </ListItem>
+  ) : null;
 };
