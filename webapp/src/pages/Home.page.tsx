@@ -1,4 +1,5 @@
 import { ActionIcon, AppShell, Group, Popover, rem, Slider, Text, TextInput } from '@mantine/core';
+import { useViewportSize } from '@mantine/hooks';
 import { Spotlight, spotlight, SpotlightActionData } from '@mantine/spotlight';
 import {
   IconBookmark,
@@ -10,7 +11,6 @@ import {
   IconSquareRoundedX,
   IconZoomPan,
 } from '@tabler/icons-react';
-import { useViewportSize } from '@mantine/hooks';
 import UaParser from 'ua-parser-js';
 import { PdfPageViewer } from '@/components/PdfPageViewer';
 import { useComputedCache } from '@/api/queries';

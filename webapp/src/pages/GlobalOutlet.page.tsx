@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 import {
   Button,
   Container,
@@ -12,7 +13,6 @@ import {
   Title,
 } from '@mantine/core';
 import { IconCheck, IconExclamationCircle, IconLoader2 } from '@tabler/icons-react';
-import { Outlet } from 'react-router-dom';
 import { useStore } from '@/api/store';
 import { useComputedCache, useListRevisions } from '@/api/queries';
 import { useUpdateRevisions } from '@/api/mutations';
@@ -44,7 +44,7 @@ export const GlobalOutletPage = () => {
     } else if (revisions?.localRevs.size) {
       setRevision(getCoevalRevFromList(Array.from(revisions.localRevs)));
     }
-  }, [revisions]);
+  }, [revisions]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const progressArray = Object.values(progress);
 

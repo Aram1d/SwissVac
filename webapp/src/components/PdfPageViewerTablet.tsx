@@ -1,15 +1,14 @@
+import React from 'react';
+import { Document as PdfDocument, Page } from 'react-pdf';
 import { Loader, Stack, Title } from '@mantine/core';
 import { useViewportSize } from '@mantine/hooks';
-import { Document as PdfDocument, Page } from 'react-pdf';
+import { pagesFromInterval } from '@/utils/utils';
 import { useComputedCache } from '@/api/queries';
 import { useStore } from '@/api/store';
 import { useDrag } from '@use-gesture/react';
 import cx from 'clsx';
 
-import React from 'react';
-
 import classes from './PdfPageViewer.module.css';
-import { pagesFromInterval } from '@/utils/utils';
 
 type PdfPageViewerProps = {
   viewPort: { width: number; height: number };

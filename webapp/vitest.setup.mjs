@@ -1,5 +1,5 @@
-import '@testing-library/jest-dom/vitest';
 import { vi } from 'vitest';
+import '@testing-library/jest-dom/vitest';
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);

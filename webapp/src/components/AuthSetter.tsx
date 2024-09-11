@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import { Button, Stack, Text, TextInput, Title } from '@mantine/core';
 import { useStore } from '@/api/store';
 import { CenteringContainer } from '@/components/UI/Containers';
-import { Button, Stack, Text, TextInput, Title } from '@mantine/core';
 
 type AuthSetterProps = {
   isLoading: boolean;

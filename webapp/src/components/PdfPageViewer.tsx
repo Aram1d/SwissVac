@@ -1,7 +1,7 @@
-import { Alert, Box, Loader, Stack, Title } from '@mantine/core';
-import { IconInfoCircle } from '@tabler/icons-react';
-import { useViewportSize } from '@mantine/hooks';
 import { Document as PdfDocument, Page } from 'react-pdf';
+import { Alert, Box, Loader, Stack, Title } from '@mantine/core';
+import { useViewportSize } from '@mantine/hooks';
+import { IconInfoCircle } from '@tabler/icons-react';
 import { useComputedCache } from '@/api/queries';
 import { useStore } from '@/api/store';
 

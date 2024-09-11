@@ -1,4 +1,5 @@
 import { ActionIcon, Menu, Text, rem, useMantineColorScheme } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import {
   IconLock,
   IconMenu2,
@@ -11,7 +12,7 @@ import {
 import { useStore } from '@/api/store';
 import { dropDb } from '@/api/indexDb';
 import { SettingsDrawer } from '@/components/UI/SettingsDrawer';
-import { useDisclosure } from '@mantine/hooks';
+
 import { QueryKey } from '@/api/queries';
 import { queryClient } from '@/App';
 import { useSmallScreen } from '@/utils/utils';
