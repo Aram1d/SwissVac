@@ -1,7 +1,10 @@
-import { pdfjs } from 'react-pdf';
-import { PDFDocumentProxy } from 'pdfjs-dist';
+import { pdfjs } from "react-pdf";
+import { PDFDocumentProxy } from "pdfjs-dist";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL('/pdf.worker.min.mjs', import.meta.url).href;
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "/pdf.worker.min.mjs",
+  import.meta.url,
+).href;
 
 export async function loadVfrManual(blob: Blob) {
   const pdfDocProxy = await pdfjs.getDocument(await blob.arrayBuffer()).promise;
@@ -16,13 +19,16 @@ export async function loadVfrManual(blob: Blob) {
           rotation: 0,
         });
         return viewPort.width / viewPort.height;
-      })
+      }),
   );
 
   return {
     blob,
     indexes,
-    aerodromes: buildAerodromeData(getAerodromes(indexes), pdfDocProxy.numPages),
+    aerodromes: buildAerodromeData(
+      getAerodromes(indexes),
+      pdfDocProxy.numPages,
+    ),
     manualSections: buildManualSections(getManualIndexes(indexes)),
     pagesRatioMap,
   };
@@ -37,29 +43,33 @@ export type OutlineMap<Des extends number | string = number> = Record<
 >;
 
 export async function computeIdxFromOutlines(
-  pdfDoc: Pick<PDFDocumentProxy, 'getOutline' | 'getPageIndex'>
+  pdfDoc: Pick<PDFDocumentProxy, "getOutline" | "getPageIndex">,
 ) {
   const outlines = await pdfDoc.getOutline();
   const pageIndexFlattenMapPromises = new Map<string, Promise<number>>();
 
   function recursiveOutlines(
-    arg: Awaited<ReturnType<PDFDocumentProxy['getOutline']>>,
-    pdfDoc: Pick<PDFDocumentProxy, 'getOutline' | 'getPageIndex'>
+    arg: Awaited<ReturnType<PDFDocumentProxy["getOutline"]>>,
+    pdfDoc: Pick<PDFDocumentProxy, "getOutline" | "getPageIndex">,
   ): OutlineMap<string> {
     return arg.reduce((accum, current) => {
       const pageIdxId = `${current.dest?.[0].num}|${current.dest?.[0].gen}`;
       pageIndexFlattenMapPromises.set(
         pageIdxId,
-        pdfDoc.getPageIndex({
-          num: current.dest?.[0].num,
-          gen: current.dest?.[0].gen,
-        })
+        pdfDoc
+          .getPageIndex({
+            num: current.dest?.[0].num,
+            gen: current.dest?.[0].gen,
+          })
+          .catch((_) => 0),
       );
       return {
         ...accum,
         [current.title]: {
           des: pageIdxId,
-          children: current.items.length ? recursiveOutlines(current.items, pdfDoc) : null,
+          children: current.items.length
+            ? recursiveOutlines(current.items, pdfDoc)
+            : null,
         },
       };
     }, {});
@@ -89,7 +99,7 @@ export async function computeIdxFromOutlines(
 }
 
 function getManualIndexes(indexes: OutlineMap) {
-  return indexes?.['eVFRM Switzerland']?.children ?? {};
+  return indexes?.["eVFRM Switzerland"]?.children ?? {};
 }
 
 export function buildManualSections(indexes: OutlineMap) {
@@ -104,15 +114,17 @@ export function buildManualSections(indexes: OutlineMap) {
 }
 
 function getAerodromes(indexes: OutlineMap) {
-  return indexes?.['eVFRM Switzerland']?.children?.['AERODROMES']?.children ?? {};
+  return (
+    indexes?.["eVFRM Switzerland"]?.children?.["AERODROMES"]?.children ?? {}
+  );
 }
 
 export function buildAerodromeData(indexes: OutlineMap, lastPageNum: number) {
   const adEntries = Object.entries(indexes);
 
   return adEntries.map(([k, v], index) => ({
-    oaci: k.match(/(?<=\()[A-Z]{4}(?=\))/)?.[0] ?? '',
-    name: k.match(/.*(?= HEL)|.*(?= "R")|.*(?= \()/)?.[0] ?? '',
+    oaci: k.match(/(?<=\()[A-Z]{4}(?=\))/)?.[0] ?? "",
+    name: k.match(/.*(?= HEL)|.*(?= "R")|.*(?= \()/)?.[0] ?? "",
     raw: k,
     beginPage: v.des + 1,
     endPage: adEntries[index + 1]?.[1]?.des ?? lastPageNum,

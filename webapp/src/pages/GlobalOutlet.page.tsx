@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect } from "react";
+import { Outlet } from "react-router";
 import {
   Button,
   Container,
@@ -11,17 +11,21 @@ import {
   Stack,
   Text,
   Title,
-} from '@mantine/core';
-import { IconCheck, IconExclamationCircle, IconLoader2 } from '@tabler/icons-react';
+} from "@mantine/core";
+import {
+  IconCheck,
+  IconExclamationCircle,
+  IconLoader2,
+} from "@tabler/icons-react";
 import {
   queryClient,
   useComputedCache,
   useListRevisions,
   useStore,
   useUpdateRevisions,
-} from '@api';
-import { AuthSetter } from '@components';
-import { getCoevalRevFromList } from '@lib';
+} from "@api";
+import { AuthSetter } from "@components";
+import { getCoevalRevFromList } from "@lib";
 
 export const GlobalOutletPage = () => {
   const setRevision = useStore((s) => s.setRevision);
@@ -34,13 +38,24 @@ export const GlobalOutletPage = () => {
     askNewToken,
     refetch,
   } = useListRevisions();
-  const { mutateAsync, progress, error: downloadError, isSuccess } = useUpdateRevisions();
-  const { data, error: computeError, isLoading: isCacheLoading } = useComputedCache();
+  const {
+    mutateAsync,
+    progress,
+    error: downloadError,
+    isSuccess,
+  } = useUpdateRevisions();
+  const {
+    data,
+    error: computeError,
+    isLoading: isCacheLoading,
+  } = useComputedCache();
 
   useEffect(() => {
     if (revisions?.newRevs.size) {
-      Promise.allSettled(Array.from(revisions.newRevs).map((rev) => mutateAsync(rev))).then(() => {
-        queryClient.invalidateQueries({ queryKey: ['listRevisions'] });
+      Promise.allSettled(
+        Array.from(revisions.newRevs).map((rev) => mutateAsync(rev)),
+      ).then(() => {
+        queryClient.invalidateQueries({ queryKey: ["listRevisions"] });
       });
     } else if (revisions?.localRevs.size) {
       setRevision(getCoevalRevFromList(Array.from(revisions.localRevs)));
@@ -50,7 +65,13 @@ export const GlobalOutletPage = () => {
   const progressArray = Object.values(progress);
 
   if (askNewToken)
-    return <AuthSetter isLoading={areListRevLoading} onAuthChange={refetch} error={revListError} />;
+    return (
+      <AuthSetter
+        isLoading={areListRevLoading}
+        onAuthChange={refetch}
+        error={revListError}
+      />
+    );
 
   if (data) return <Outlet />;
 
@@ -60,9 +81,9 @@ export const GlobalOutletPage = () => {
       display="flex"
       styles={(t) => ({
         root: {
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
           gap: t.spacing.md,
         },
       })}
@@ -74,9 +95,9 @@ export const GlobalOutletPage = () => {
           icon={<IconLoader2 style={iconStyles} />}
           styles={{
             itemIcon: {
-              display: 'flex',
+              display: "flex",
             },
-            itemLabel: { '&p': { lineHeight: 0 } },
+            itemLabel: { "&p": { lineHeight: 0 } },
           }}
         >
           <LoadCheckItem
@@ -84,8 +105,8 @@ export const GlobalOutletPage = () => {
             error={revListError}
             isSuccess={!!revisions}
             texts={{
-              loading: 'Checking for manual updates...',
-              loaded: 'Manual updates checked',
+              loading: "Checking for manual updates...",
+              loaded: "Manual updates checked",
             }}
           />
 
@@ -94,8 +115,8 @@ export const GlobalOutletPage = () => {
             error={downloadError}
             isSuccess={isSuccess}
             texts={{
-              loading: 'Updating manuals...',
-              loaded: 'Manuals updated',
+              loading: "Updating manuals...",
+              loaded: "Manuals updated",
             }}
           />
           <LoadCheckItem
@@ -103,14 +124,17 @@ export const GlobalOutletPage = () => {
             error={computeError}
             isSuccess={!!data}
             texts={{
-              loading: 'Indexing manual...',
-              loaded: 'Manual is ready',
+              loading: "Indexing manual...",
+              loaded: "Manual is ready",
             }}
           />
         </List>
         {!!progressArray.length && (
           <Progress
-            value={progressArray.reduce((acc, curr) => acc + curr, 0) / progressArray.length}
+            value={
+              progressArray.reduce((acc, curr) => acc + curr, 0) /
+              progressArray.length
+            }
           />
         )}
 
@@ -141,7 +165,12 @@ type LoadingItemProps = {
 
 const iconStyles = { width: rem(16), height: rem(16), marginBottom: rem(2) };
 
-const LoadCheckItem = ({ isLoading, error, isSuccess, texts }: LoadingItemProps) => {
+const LoadCheckItem = ({
+  isLoading,
+  error,
+  isSuccess,
+  texts,
+}: LoadingItemProps) => {
   const normalText = isLoading ? texts?.loading : texts.loaded;
   return error || isLoading || isSuccess ? (
     <ListItem
@@ -152,7 +181,7 @@ const LoadCheckItem = ({ isLoading, error, isSuccess, texts }: LoadingItemProps)
           isSuccess && <IconCheck style={iconStyles} />
         )
       }
-      c={error ? 'red' : isSuccess ? 'green' : undefined}
+      c={error ? "red" : isSuccess ? "green" : undefined}
     >
       <Text c="dimmed">{error?.message ?? normalText}</Text>
     </ListItem>

@@ -1,6 +1,28 @@
-import { Button, Drawer, Group, List, Skeleton, Stack, TextInput, Title } from '@mantine/core';
-import { deleteIDBManual, getIDBManual, useStore, useListRevisions } from '@api';
-import { fileDownloader, getRevEffectiveDate, isRevCoeval, isRevObsolete } from '@lib';
+import {
+  Button,
+  Drawer,
+  Group,
+  List,
+  Skeleton,
+  Stack,
+  TextInput,
+  Title,
+  Text,
+  Select,
+} from "@mantine/core";
+import {
+  deleteIDBManual,
+  getIDBManual,
+  useStore,
+  useListRevisions,
+} from "@api";
+import {
+  fileDownloader,
+  getRevEffectiveDate,
+  isRevCoeval,
+  isRevObsolete,
+  useUaType,
+} from "@lib";
 
 type SettingsDrawerProps = {
   opened: boolean;
@@ -8,12 +30,19 @@ type SettingsDrawerProps = {
 };
 
 export const SettingsDrawer = ({ opened, close }: SettingsDrawerProps) => {
+  const uaType = useUaType();
+  const setUaType = useStore((s) => s.setUaType);
   const { data, refetch } = useListRevisions();
   const authToken = useStore((s) => s.authToken);
   const setAuthToken = useStore((s) => s.setAuthToken);
 
   return (
-    <Drawer opened={opened} onClose={close} position="right" title="SwissVac Settings">
+    <Drawer
+      opened={opened}
+      onClose={close}
+      position="right"
+      title="SwissVac Settings"
+    >
       <Stack>
         <Title order={6}>Authentication</Title>
         <TextInput
@@ -22,6 +51,22 @@ export const SettingsDrawer = ({ opened, close }: SettingsDrawerProps) => {
           value={authToken}
           onChange={(e) => setAuthToken(e.currentTarget.value)}
         />
+        <Title order={6}>Platform</Title>
+
+        <Group align="end">
+          <Select
+            label="Platform override"
+            data={["None", "tablet", "mobile", "xr"]}
+            onChange={(v) => {
+              v === "None" ? setUaType(undefined) : setUaType(v ?? undefined);
+            }}
+            value={uaType}
+          ></Select>
+          <Text c="dimmed" size="xs" mb={8}>
+            {uaType}
+          </Text>
+        </Group>
+
         <Title order={6}>Revisions</Title>
         <List>
           {data?.localRevs ? (
@@ -29,17 +74,19 @@ export const SettingsDrawer = ({ opened, close }: SettingsDrawerProps) => {
               return (
                 <List.Item key={rev}>
                   <Group gap="sm">
-                    {getRevEffectiveDate(rev).format('DD.MM.YYYY')}{' '}
-                    {isRevCoeval(rev) && ' => Actual revision'}{' '}
+                    {getRevEffectiveDate(rev).format("DD.MM.YYYY")}{" "}
+                    {isRevCoeval(rev) && " => Actual revision"}{" "}
                     {isRevObsolete(rev) && (
                       <Button
                         size="xs"
                         variant="transparent"
-                        onClick={() => deleteIDBManual(rev).then(() => refetch({}))}
+                        onClick={() =>
+                          deleteIDBManual(rev).then(() => refetch({}))
+                        }
                       >
                         Delete
                       </Button>
-                    )}{' '}
+                    )}{" "}
                     {
                       <Button
                         size="xs"

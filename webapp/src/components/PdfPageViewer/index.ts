@@ -1,2 +1,2 @@
-export * from './PdfPageViewer';
-export * from './PdfPageViewerTablet';
+export * from "./PdfPageViewer";
+export * from "./PdfPageViewerTablet";

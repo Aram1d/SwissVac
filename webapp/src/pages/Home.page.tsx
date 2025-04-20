@@ -1,6 +1,15 @@
-import { ActionIcon, AppShell, Group, Popover, rem, Slider, Text, TextInput } from '@mantine/core';
-import { useViewportSize } from '@mantine/hooks';
-import { Spotlight, spotlight, SpotlightActionData } from '@mantine/spotlight';
+import {
+  ActionIcon,
+  AppShell,
+  Group,
+  Popover,
+  rem,
+  Slider,
+  Text,
+  TextInput,
+} from "@mantine/core";
+import { useViewportSize } from "@mantine/hooks";
+import { Spotlight, spotlight, SpotlightActionData } from "@mantine/spotlight";
 import {
   IconBookmark,
   IconChevronLeft,
@@ -10,18 +19,18 @@ import {
   IconSearch,
   IconSquareRoundedX,
   IconZoomPan,
-} from '@tabler/icons-react';
-import { UAParser } from 'ua-parser-js';
-import { useComputedCache, useStore } from '@api';
-import { PdfPageViewer, PdfPageViewerTablet, StdContainer, SettingsDropdown } from '@components';
-import { emptyArray, useSmallScreen } from '@lib';
-
-const isMobile = ['console', 'mobile', 'tablet', 'smarttv', 'wearable', 'embedded'].includes(
-  UAParser().device.type ?? ''
-);
+} from "@tabler/icons-react";
+import { useComputedCache, useStore } from "@api";
+import {
+  PdfPageViewer,
+  PdfPageViewerTablet,
+  StdContainer,
+  SettingsDropdown,
+} from "@components";
+import { emptyArray, useIsMobile, useSmallScreen } from "@lib";
 
 function getAdIcon(input: string) {
-  if (input.includes(' HEL ')) return <IconHelicopter />;
+  if (input.includes(" HEL ")) return <IconHelicopter />;
   if (input.includes('"R"')) return <IconSquareRoundedX />;
   return <IconPlane />;
 }
@@ -29,6 +38,7 @@ function getAdIcon(input: string) {
 export function HomePage() {
   const smallScreen = useSmallScreen();
   const viewPort = useViewportSize();
+  const isMobile = useIsMobile();
 
   const actualPage = useStore((s) => s.actualPage);
   const pageInterval = useStore((s) => s.pageInterval);
@@ -40,7 +50,9 @@ export function HomePage() {
   const setScale = useStore((s) => s.setScale);
 
   const { data } = useComputedCache();
-  const spotLightADActions: SpotlightActionData[] = (data?.aerodromes ?? emptyArray).map((a) => ({
+  const spotLightADActions: SpotlightActionData[] = (
+    data?.aerodromes ?? emptyArray
+  ).map((a) => ({
     id: a.oaci,
     label: a.oaci,
     description: a.name,
@@ -53,20 +65,20 @@ export function HomePage() {
     },
   }));
 
-  const spotLightManualActions: SpotlightActionData[] = (data?.manualSections ?? emptyArray).map(
-    (b) => ({
-      id: b.name,
-      label: b.name,
-      description: `${b.beginPage}-${b.endPage}`,
-      leftSection: <IconBookmark />,
-      onClick: () => {
-        setSelectedAd(b.name);
-        setPageInterval([b.beginPage, b.endPage]);
-        setActualPage(b.beginPage);
-        spotlight.close();
-      },
-    })
-  );
+  const spotLightManualActions: SpotlightActionData[] = (
+    data?.manualSections ?? emptyArray
+  ).map((b) => ({
+    id: b.name,
+    label: b.name,
+    description: `${b.beginPage}-${b.endPage}`,
+    leftSection: <IconBookmark />,
+    onClick: () => {
+      setSelectedAd(b.name);
+      setPageInterval([b.beginPage, b.endPage]);
+      setActualPage(b.beginPage);
+      spotlight.close();
+    },
+  }));
 
   return (
     <AppShell header={{ height: 60 }} footer={{ height: 60 }} padding="md">
@@ -83,25 +95,35 @@ export function HomePage() {
             <Spotlight
               scrollable
               actions={[
-                { group: 'Aerodromes', actions: spotLightADActions },
-                { group: 'Manuals', actions: spotLightManualActions },
+                { group: "Aerodromes", actions: spotLightADActions },
+                { group: "Manuals", actions: spotLightManualActions },
               ]}
               searchProps={{
                 leftSection: (
-                  <IconSearch style={{ width: rem(20), height: rem(20) }} stroke={1.5} />
+                  <IconSearch
+                    style={{ width: rem(20), height: rem(20) }}
+                    stroke={1.5}
+                  />
                 ),
-                placeholder: 'Search AD...',
+                placeholder: "Search AD...",
               }}
             />
             <Group wrap="nowrap">
               <Popover position="bottom-end" withArrow arrowOffset={22}>
                 <Popover.Target>
-                  <ActionIcon size={smallScreen ? 'md' : 'xl'}>
+                  <ActionIcon size={smallScreen ? "md" : "xl"}>
                     <IconZoomPan />
                   </ActionIcon>
                 </Popover.Target>
                 <Popover.Dropdown>
-                  <Slider miw={200} min={1} max={4} step={0.1} value={scale} onChange={setScale} />
+                  <Slider
+                    miw={200}
+                    min={1}
+                    max={4}
+                    step={0.1}
+                    value={scale}
+                    onChange={setScale}
+                  />
                 </Popover.Dropdown>
               </Popover>
               <SettingsDropdown />
@@ -112,7 +134,7 @@ export function HomePage() {
       <AppShell.Main p={0} pt={60}>
         <StdContainer
           display="flex"
-          styles={{ root: { justifyContent: 'center', position: 'relative' } }}
+          styles={{ root: { justifyContent: "center", position: "relative" } }}
         >
           {isMobile ? (
             <PdfPageViewerTablet viewPort={viewPort} />
@@ -123,7 +145,11 @@ export function HomePage() {
       </AppShell.Main>
       <AppShell.Footer>
         <StdContainer>
-          <Group h="100%" px="md" justify={isMobile ? 'space-between' : 'center'}>
+          <Group
+            h="100%"
+            px="md"
+            justify={isMobile ? "space-between" : "center"}
+          >
             <ActionIcon
               disabled={actualPage <= pageInterval[0]}
               onClick={() => setActualPage(actualPage - 1)}

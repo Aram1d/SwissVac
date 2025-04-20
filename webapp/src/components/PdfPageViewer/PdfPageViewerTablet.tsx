@@ -1,33 +1,24 @@
-import React from 'react';
-import { Document as PdfDocument, Page } from 'react-pdf';
-import { Loader, Stack, Title } from '@mantine/core';
-import { useViewportSize } from '@mantine/hooks';
-import { useDrag } from '@use-gesture/react';
-import cx from 'clsx';
-import { useComputedCache, useStore } from '@api';
-import { pagesFromInterval } from '@lib';
+import React from "react";
+import { Document as PdfDocument, Page } from "react-pdf";
+import { Loader, Stack, Title } from "@mantine/core";
+import { useViewportSize } from "@mantine/hooks";
+import { useDrag } from "@use-gesture/react";
+import cx from "clsx";
+import { useComputedCache, useStore } from "@api";
+import { pagesFromInterval } from "@lib";
 
-import classes from './PdfPageViewer.module.css';
+import classes from "./PdfPageViewer.module.css";
 
 type PdfPageViewerProps = {
   viewPort: { width: number; height: number };
 };
 
 export const PdfPageViewerTablet = ({ viewPort }: PdfPageViewerProps) => {
-  const {
-    actualPage: page,
-    pageInterval,
-    autoRotate,
-    setActualPage,
-    scale,
-  } = useStore(({ autoRotate, actualPage, pageInterval, scale, setScale, setActualPage }) => ({
-    actualPage,
-    setActualPage,
-    pageInterval,
-    autoRotate,
-    scale,
-    setScale,
-  }));
+  const page = useStore((s) => s.actualPage);
+  const pageInterval = useStore((s) => s.pageInterval);
+  const autoRotate = useStore((s) => s.autoRotate);
+  const setActualPage = useStore((s) => s.setActualPage);
+  const scale = useStore((s) => s.scale);
 
   const pages = pagesFromInterval(pageInterval);
 
@@ -37,7 +28,7 @@ export const PdfPageViewerTablet = ({ viewPort }: PdfPageViewerProps) => {
 
   const { width } = computeDimensions(
     { height: viewPort.height - 121, width: viewPort.width },
-    pageRatio > 1 ? 1 / pageRatio : pageRatio
+    pageRatio > 1 ? 1 / pageRatio : pageRatio,
   );
 
   const [displacement, setDisplacement] = React.useState(0);
@@ -46,7 +37,8 @@ export const PdfPageViewerTablet = ({ viewPort }: PdfPageViewerProps) => {
 
     if (state.last) {
       setDisplacement(0);
-      if (Math.abs(triggerIdx) > 1.5) setActualPage(page + Math.sign(triggerIdx));
+      if (Math.abs(triggerIdx) > 1.5)
+        setActualPage(page + Math.sign(triggerIdx));
     } else if (
       !(state.movement[0] > 0 && page === pages[0]) &&
       !(state.movement[0] < 0 && page === pages[pages.length - 1])
@@ -59,10 +51,12 @@ export const PdfPageViewerTablet = ({ viewPort }: PdfPageViewerProps) => {
     <div
       {...bind()}
       style={{
-        touchAction: scale === 1 ? 'none' : 'initial',
+        touchAction: scale === 1 ? "none" : "initial",
         // @ts-expect-error css variables name are outside React.CssProperties definition
-        '--page-displacement': `${displacement}px`,
-        '--trigger-ratio': Math.abs((width / 4 - displacement) / (width / 4) - 1),
+        "--page-displacement": `${displacement}px`,
+        "--trigger-ratio": Math.abs(
+          (width / 4 - displacement) / (width / 4) - 1,
+        ),
       }}
     >
       <PdfDocument
@@ -79,7 +73,7 @@ export const PdfPageViewerTablet = ({ viewPort }: PdfPageViewerProps) => {
 
           const { width, height } = computeDimensions(
             { height: viewPort.height - 121, width: viewPort.width },
-            pageRatio > 1 ? 1 / pageRatio : pageRatio
+            pageRatio > 1 ? 1 / pageRatio : pageRatio,
           );
           return (
             <Pdfpage
@@ -99,7 +93,10 @@ export const PdfPageViewerTablet = ({ viewPort }: PdfPageViewerProps) => {
   );
 };
 
-const computeDimensions = (viewport: ReturnType<typeof useViewportSize>, pageWhRatio: number) => {
+const computeDimensions = (
+  viewport: ReturnType<typeof useViewportSize>,
+  pageWhRatio: number,
+) => {
   const viewPortRatio = viewport.width / viewport.height;
   {
     return viewPortRatio > pageWhRatio
@@ -147,7 +144,7 @@ const Pdfpage = ({
       className={cx(
         classes.pdfPage,
         isActualPage && classes.activePdfPage,
-        isNextPage && classes.visiblePdfPage
+        isNextPage && classes.visiblePdfPage,
       )}
     />
   );

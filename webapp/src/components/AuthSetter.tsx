@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
-import { Button, Stack, Text, TextInput, Title } from '@mantine/core';
-import { useStore } from '@api';
-import { CenteringContainer } from '@components';
+import React, { useState } from "react";
+import { Button, Stack, Text, TextInput, Title } from "@mantine/core";
+import { useStore } from "@api";
+import { CenteringContainer } from "@components";
 
 type AuthSetterProps = {
   isLoading: boolean;
   onAuthChange?: () => void;
   error?: Error | null;
 };
-export const AuthSetter = ({ isLoading, onAuthChange, error }: AuthSetterProps) => {
+export const AuthSetter = ({
+  isLoading,
+  onAuthChange,
+  error,
+}: AuthSetterProps) => {
   const [originalError, setError] = useState(error);
   const authToken = useStore((s) => s.authToken);
   const setAuthToken = useStore((s) => s.setAuthToken);

@@ -1,2 +1,2 @@
-export * from './GlobalOutlet.page';
-export * from './Home.page';
+export * from "./GlobalOutlet.page";
+export * from "./Home.page";

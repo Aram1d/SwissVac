@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import { useDisclosure } from '@mantine/hooks';
-import { Cache, getIDBManual, listIDBManuals, useStore } from '@api';
-import { loadVfrManual, shouldUpdateRevs } from '@lib';
+import { useQuery } from "@tanstack/react-query";
+import { useDisclosure } from "@mantine/hooks";
+import { Cache, getIDBManual, listIDBManuals, useStore } from "@api";
+import { loadVfrManual, shouldUpdateRevs } from "@lib";
 
 export enum QueryKey {
-  listRevisions = 'listRevisions',
-  computeCache = 'computeCache',
+  listRevisions = "listRevisions",
+  computeCache = "computeCache",
 }
 
 type ComputedCache = Cache & { blob: Blob };
@@ -21,14 +21,15 @@ export const useListRevisions = () => {
         const local = await listIDBManuals();
         const localRevs = new Set(local);
 
-        if (!localRevs.has(useStore.getState().revision)) useStore.getState().setRevision('');
+        if (!localRevs.has(useStore.getState().revision))
+          useStore.getState().setRevision("");
 
-        let distantText = '';
+        let distantText = "";
 
         if (shouldUpdateRevs(local)) {
           if (!usedToken) {
             open();
-            throw new Error('No revisions available, please try again later');
+            throw new Error("No revisions available, please try again later");
           }
 
           distantText =
@@ -38,15 +39,15 @@ export const useListRevisions = () => {
                 : import.meta.env.VITE_MANUALS_SYNC_URL_PROD,
               {
                 headers: { authorization: usedToken },
-              }
+              },
             ).then((res) => {
               if (!res.ok) {
                 if (res.status === 401) open();
-                throw new Error('Your token is invalid.');
+                throw new Error("Your token is invalid.");
               }
               closeAskNewToken();
               return res.text();
-            })) ?? '';
+            })) ?? "";
         }
 
         const revInListBucketRegex = /(?<=<Key>)[0-9]+(?=\.pdf<\/Key>)/g;
@@ -55,7 +56,7 @@ export const useListRevisions = () => {
         const newRevs = new Set([...distant].filter((r) => !localRevs.has(r)));
 
         if (!localRevs.size && !newRevs.size) {
-          throw new Error('No revisions available, please try again later');
+          throw new Error("No revisions available, please try again later");
         }
 
         return { localRevs, newRevs };
@@ -74,7 +75,7 @@ export const useComputedCache = () => {
       if (!rev) return null;
       const fromCache = useStore.getState().cache.get(rev);
       const blob = await getIDBManual(rev);
-      if (!blob) throw new Error('Could not load VFR cached manual');
+      if (!blob) throw new Error("Could not load VFR cached manual");
 
       if (fromCache) return { ...fromCache, blob };
       return await loadVfrManual(blob).then((c) => {

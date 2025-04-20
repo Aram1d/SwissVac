@@ -1,9 +1,9 @@
-import { Document as PdfDocument, Page } from 'react-pdf';
-import { Alert, Box, Loader, Stack, Title } from '@mantine/core';
-import { useViewportSize } from '@mantine/hooks';
-import { IconInfoCircle } from '@tabler/icons-react';
-import 'swiper/css';
-import { useComputedCache, useStore } from '@api';
+import { Document as PdfDocument, Page } from "react-pdf";
+import { Alert, Box, Loader, Stack, Title } from "@mantine/core";
+import { useViewportSize } from "@mantine/hooks";
+import { IconInfoCircle } from "@tabler/icons-react";
+import "swiper/css";
+import { useComputedCache, useStore } from "@api";
 
 type PdfPageViewerProps = {
   viewPort: { width: number; height: number };
@@ -22,7 +22,7 @@ export const PdfPageViewer = ({ viewPort }: PdfPageViewerProps) => {
 
   const { width, height } = computeDimensions(
     { height: viewPort.height - 121, width: viewPort.width },
-    pageRatio > 1 ? 1 / pageRatio : pageRatio
+    pageRatio > 1 ? 1 / pageRatio : pageRatio,
   );
 
   return (
@@ -46,12 +46,19 @@ export const PdfPageViewer = ({ viewPort }: PdfPageViewerProps) => {
             height={height}
             scale={scale}
             onWheel={(e) => {
-              if (e.shiftKey) e.deltaY > 0 ? setScale(scale - 0.1) : setScale(scale + 0.1);
+              if (e.shiftKey)
+                e.deltaY > 0 ? setScale(scale - 0.1) : setScale(scale + 0.1);
             }}
           />
         ) : (
-          <Alert title="No aerodrome selected" miw="17rem" icon={<IconInfoCircle />} mt="xl">
-            Please use the spotlight to search an aerodrome by ICAO code or name.
+          <Alert
+            title="No aerodrome selected"
+            miw="17rem"
+            icon={<IconInfoCircle />}
+            mt="xl"
+          >
+            Please use the spotlight to search an aerodrome by ICAO code or
+            name.
           </Alert>
         )}
       </PdfDocument>
@@ -59,7 +66,10 @@ export const PdfPageViewer = ({ viewPort }: PdfPageViewerProps) => {
   );
 };
 
-const computeDimensions = (viewport: ReturnType<typeof useViewportSize>, pageWhRatio: number) => {
+const computeDimensions = (
+  viewport: ReturnType<typeof useViewportSize>,
+  pageWhRatio: number,
+) => {
   const viewPortRatio = viewport.width / viewport.height;
   {
     return viewPortRatio > pageWhRatio

@@ -1,5 +1,5 @@
-import { useMediaQuery } from '@mantine/hooks';
-import dayjs from 'dayjs';
+import { useMediaQuery } from "@mantine/hooks";
+import dayjs from "dayjs";
 
 export function getRevEffectiveDate(rev: string) {
   const century = new Date().getFullYear().toString().slice(0, 2);
@@ -12,7 +12,7 @@ export function getRevEffectiveDate(rev: string) {
 }
 
 export function isRevObsolete(rev: string) {
-  return dayjs().isAfter(dayjs(getRevEffectiveDate(rev).add(1, 'month')));
+  return dayjs().isAfter(dayjs(getRevEffectiveDate(rev).add(1, "month")));
 }
 
 export function isRevProvisionallyValid(rev: string) {
@@ -44,7 +44,7 @@ export function getCoevalRevFromList(revs: string[]) {
       return rev;
     }
   }
-  return '';
+  return "";
 }
 
 export function shouldUpdateRevs(revs: string[]) {
@@ -52,7 +52,7 @@ export function shouldUpdateRevs(revs: string[]) {
   const effectiveDateList = getEffectiveDateList(revs);
   if (!effectiveDateList.length) return true;
   for (const [idx, { date }] of effectiveDateList.entries()) {
-    if (now.isAfter(date.add(20, 'days')) && !effectiveDateList[idx + 1]) {
+    if (now.isAfter(date.add(20, "days")) && !effectiveDateList[idx + 1]) {
       return true;
     }
   }
@@ -66,7 +66,7 @@ export function pagesFromInterval(interval: [number, number]) {
   return Array.from({ length: amount }, (_, i) => interval[0] + i);
 }
 
-export const useSmallScreen = () => useMediaQuery('(max-width: 400px)');
+export const useSmallScreen = () => useMediaQuery("(max-width: 400px)");
 
 export const fileDownloader = (data: Blob | undefined, filename: string) => {
   if (!data) return;
@@ -75,13 +75,13 @@ export const fileDownloader = (data: Blob | undefined, filename: string) => {
       ? window.URL.createObjectURL(data)
       : window.webkitURL.createObjectURL(data);
 
-  const anchor: HTMLAnchorElement = document.createElement('a');
-  anchor.style.display = 'none';
+  const anchor: HTMLAnchorElement = document.createElement("a");
+  anchor.style.display = "none";
   anchor.href = url;
-  anchor.setAttribute('download', filename);
+  anchor.setAttribute("download", filename);
 
-  if (typeof anchor.download === 'undefined') {
-    anchor.setAttribute('target', '_blank');
+  if (typeof anchor.download === "undefined") {
+    anchor.setAttribute("target", "_blank");
   }
 
   document.body.appendChild(anchor);

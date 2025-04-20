@@ -70,7 +70,7 @@ export async function fetchManuals(revToSkip: (string | undefined)[]) {
   );
 
   await Promise.all(
-    links.map(async link => {
+    [links[0]].map(async link => {
       const datePart = getDatePart(link);
       if (revToSkip.includes(datePart)) return;
       if (datePart) {

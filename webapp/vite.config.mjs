@@ -41,6 +41,9 @@ export default defineConfig({
       '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
     },
   },
+  define: {
+    APP_VERSION: JSON.stringify(process.env.npm_package_version),
+  },
   test: {
     globals: true,
     environment: 'jsdom',

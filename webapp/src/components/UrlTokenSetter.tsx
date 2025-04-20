@@ -1,6 +1,6 @@
-import { useLayoutEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useStore } from '@api';
+import { useLayoutEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useStore } from "@api";
 
 export const UrlTokenSetter = () => {
   const { urlToken } = useParams();
@@ -13,7 +13,7 @@ export const UrlTokenSetter = () => {
     if (urlToken && !authToken) {
       setAuthToken(urlToken);
     }
-    navigate('/');
+    navigate("/");
   });
 
   return null;
