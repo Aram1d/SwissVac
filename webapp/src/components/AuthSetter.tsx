@@ -10,10 +10,8 @@ type AuthSetterProps = {
 };
 export const AuthSetter = ({ isLoading, onAuthChange, error }: AuthSetterProps) => {
   const [originalError, setError] = useState(error);
-  const { authToken, setAuthToken } = useStore(({ authToken, setAuthToken }) => ({
-    authToken,
-    setAuthToken,
-  }));
+  const authToken = useStore((s) => s.authToken);
+  const setAuthToken = useStore((s) => s.setAuthToken);
 
   const [token, setToken] = React.useState(authToken);
 

@@ -66,9 +66,7 @@ export const useListRevisions = () => {
 };
 
 export const useComputedCache = () => {
-  const { rev } = useStore((s) => ({
-    rev: s.revision,
-  }));
+  const rev = useStore((s) => s.revision);
 
   return useQuery<ComputedCache | null>({
     queryKey: [QueryKey.computeCache, rev],

@@ -36,6 +36,11 @@ export default defineConfig({
     },
   },
   plugins: [react(), tsconfigPaths(), VitePWA(manifestSource)],
+  resolve: {
+    alias: {
+      '@tabler/icons-react': '@tabler/icons-react/dist/esm/icons/index.mjs',
+    },
+  },
   test: {
     globals: true,
     environment: 'jsdom',

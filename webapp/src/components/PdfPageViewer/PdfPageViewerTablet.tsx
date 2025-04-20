@@ -133,7 +133,7 @@ const Pdfpage = ({
   isActualPage,
   isNextPage,
 }: PdfPageProps) => {
-  const { scale } = useStore(({ scale }) => ({ scale }));
+  const scale = useStore((s) => s.scale);
   return (
     <Page
       key={page}

@@ -6,10 +6,8 @@ export const UrlTokenSetter = () => {
   const { urlToken } = useParams();
   const navigate = useNavigate();
 
-  const { authToken, setAuthToken } = useStore(({ authToken, setAuthToken }) => ({
-    authToken,
-    setAuthToken,
-  }));
+  const authToken = useStore((s) => s.authToken);
+  const setAuthToken = useStore((s) => s.setAuthToken);
 
   useLayoutEffect(() => {
     if (urlToken && !authToken) {

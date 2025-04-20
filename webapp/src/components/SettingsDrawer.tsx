@@ -9,10 +9,8 @@ type SettingsDrawerProps = {
 
 export const SettingsDrawer = ({ opened, close }: SettingsDrawerProps) => {
   const { data, refetch } = useListRevisions();
-  const { authToken, setAuthToken } = useStore(({ authToken, setAuthToken }) => ({
-    authToken,
-    setAuthToken,
-  }));
+  const authToken = useStore((s) => s.authToken);
+  const setAuthToken = useStore((s) => s.setAuthToken);
 
   return (
     <Drawer opened={opened} onClose={close} position="right" title="SwissVac Settings">

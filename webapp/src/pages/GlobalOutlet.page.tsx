@@ -24,10 +24,8 @@ import { AuthSetter } from '@components';
 import { getCoevalRevFromList } from '@lib';
 
 export const GlobalOutletPage = () => {
-  const { setRevision, clearCache } = useStore(({ setRevision, clearCache }) => ({
-    setRevision,
-    clearCache,
-  }));
+  const setRevision = useStore((s) => s.setRevision);
+  const clearCache = useStore((s) => s.clearCache);
 
   const {
     data: revisions,

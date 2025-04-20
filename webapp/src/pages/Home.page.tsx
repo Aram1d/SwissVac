@@ -11,13 +11,13 @@ import {
   IconSquareRoundedX,
   IconZoomPan,
 } from '@tabler/icons-react';
-import UaParser from 'ua-parser-js';
+import { UAParser } from 'ua-parser-js';
 import { useComputedCache, useStore } from '@api';
 import { PdfPageViewer, PdfPageViewerTablet, StdContainer, SettingsDropdown } from '@components';
 import { emptyArray, useSmallScreen } from '@lib';
 
 const isMobile = ['console', 'mobile', 'tablet', 'smarttv', 'wearable', 'embedded'].includes(
-  new UaParser().getDevice().type ?? ''
+  UAParser().device.type ?? ''
 );
 
 function getAdIcon(input: string) {
@@ -30,36 +30,14 @@ export function HomePage() {
   const smallScreen = useSmallScreen();
   const viewPort = useViewportSize();
 
-  const {
-    actualPage,
-    pageInterval,
-    selectedAd,
-    setSelectedAd,
-    setPageInterval,
-    setActualPage,
-    scale,
-    setScale,
-  } = useStore(
-    ({
-      pageInterval,
-      actualPage,
-      selectedAd,
-      setPageInterval,
-      setSelectedAd,
-      setActualPage,
-      scale,
-      setScale,
-    }) => ({
-      actualPage,
-      pageInterval,
-      setPageInterval,
-      setSelectedAd,
-      selectedAd,
-      setActualPage,
-      scale,
-      setScale,
-    })
-  );
+  const actualPage = useStore((s) => s.actualPage);
+  const pageInterval = useStore((s) => s.pageInterval);
+  const selectedAd = useStore((s) => s.selectedAd);
+  const setSelectedAd = useStore((s) => s.setSelectedAd);
+  const setPageInterval = useStore((s) => s.setPageInterval);
+  const setActualPage = useStore((s) => s.setActualPage);
+  const scale = useStore((s) => s.scale);
+  const setScale = useStore((s) => s.setScale);
 
   const { data } = useComputedCache();
   const spotLightADActions: SpotlightActionData[] = (data?.aerodromes ?? emptyArray).map((a) => ({

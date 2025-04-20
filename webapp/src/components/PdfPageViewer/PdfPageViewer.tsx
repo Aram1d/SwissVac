@@ -10,19 +10,11 @@ type PdfPageViewerProps = {
 };
 
 export const PdfPageViewer = ({ viewPort }: PdfPageViewerProps) => {
-  const {
-    actualPage: page,
-    pageInterval,
-    autoRotate,
-    scale,
-    setScale,
-  } = useStore(({ autoRotate, actualPage, pageInterval, scale, setScale }) => ({
-    actualPage,
-    pageInterval,
-    autoRotate,
-    scale,
-    setScale,
-  }));
+  const page = useStore((s) => s.actualPage);
+  const pageInterval = useStore((s) => s.pageInterval);
+  const autoRotate = useStore((s) => s.autoRotate);
+  const scale = useStore((s) => s.scale);
+  const setScale = useStore((s) => s.setScale);
 
   const { data } = useComputedCache();
 

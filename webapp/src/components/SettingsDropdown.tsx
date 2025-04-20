@@ -19,13 +19,9 @@ export const SettingsDropdown = () => {
   const smallScreen = useSmallScreen();
   const [opened, handlers] = useDisclosure(false);
   const { setColorScheme, colorScheme } = useMantineColorScheme();
-  const { autoRotate, toggleAutoRotate, clearCache } = useStore(
-    ({ autoRotate, toggleAutoRotate, clearCache }) => ({
-      autoRotate,
-      toggleAutoRotate,
-      clearCache,
-    })
-  );
+  const autoRotate = useStore((s) => s.autoRotate);
+  const toggleAutoRotate = useStore((s) => s.toggleAutoRotate);
+  const clearCache = useStore((s) => s.clearCache);
 
   const ARIcon = autoRotate ? IconRotate : IconLock;
   const CMIcon = colorScheme === 'light' ? IconSunHigh : IconMoon;

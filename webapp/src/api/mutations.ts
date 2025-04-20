@@ -4,7 +4,7 @@ import { storeIDBManual, useStore } from '@api';
 
 export const useUpdateRevisions = () => {
   const [progress, setProgress] = useState<Record<string, number>>({});
-  const { authToken } = useStore(({ authToken }) => ({ authToken }));
+  const authToken = useStore((s) => s.authToken);
 
   const mutation = useMutation<string, Error, string>({
     mutationKey: ['dlRevisions'],
