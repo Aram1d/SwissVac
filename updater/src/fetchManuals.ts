@@ -1,14 +1,22 @@
 import puppeteer from "puppeteer";
 import { getDatePart } from "./utils.js";
+import { PORT, SKYB_LOGIN, SKYB_PASSWORD } from "./envVars.js";
 
 export async function fetchManuals(revToSkip: (string | undefined)[]) {
-  // Launch the browser and open a new blank page
   const browser = await puppeteer.launch({
     timeout: 0,
-    headless: false,
-    executablePath: "/usr/bin/google-chrome-stable",
+    headless: true,
+    executablePath: "/usr/bin/chromium",
     userDataDir: "/tmp/puppeteer-chrome-session",
-    args: ["--disable-web-security"]
+    args: [
+      "--disable-web-security",
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+      "--no-zygote",
+      "--single-process"
+    ]
   });
   const page = await browser.newPage();
 
@@ -30,11 +38,11 @@ export async function fetchManuals(revToSkip: (string | undefined)[]) {
     // Type into search box
     await page.type(
       "#_com_liferay_login_web_portlet_LoginPortlet_login",
-      "wsu287@gmail.com"
+      SKYB_LOGIN
     );
     await page.type(
       "#_com_liferay_login_web_portlet_LoginPortlet_password",
-      "V5Lvn547SVsgqCu"
+      SKYB_PASSWORD
     );
     await page.click("button[type=submit]");
     await page.waitForNavigation();
@@ -86,7 +94,7 @@ export async function fetchManuals(revToSkip: (string | undefined)[]) {
 
           const arrayBuffer = await res.arrayBuffer();
           console.info(`Uploading VFR manual v ${datePart}`);
-          await fetch("http://localhost:3000/upload-pdf", {
+          await fetch(`http://localhost:${PORT}/upload-pdf`, {
             method: "POST",
             headers: {
               "Content-Type": "application/pdf",

@@ -1,5 +1,5 @@
 {
-  "name": "swissVacUpdater",
+  "name": "swiss-vac-updater",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -12,7 +12,6 @@
     "puppeteer": "^22.0.0"
   },
   "scripts": {
-    "start": "bun run src/index.ts",
-    "compiled-run": "tsc && node dist/index.js"
+    "start": "bun run src/index.ts"
   }
 }

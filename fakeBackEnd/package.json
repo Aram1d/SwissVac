@@ -1,7 +1,6 @@
 {
   "name": "swiss-vac-dev-backend",
   "version": "1.0.0",
-  "main": "dist/index.js",
   "license": "MIT",
   "type": "module",
   "dependencies": {
@@ -12,6 +11,6 @@
     "express": "^4.18.2"
   },
   "scripts": {
-    "start": "tsc && node ./dist/index.js"
+    "start": "bun run ./src/index.ts"
   }
 }

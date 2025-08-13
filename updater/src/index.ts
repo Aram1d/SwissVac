@@ -5,14 +5,16 @@ import {
   PutObjectCommand,
   S3Client
 } from "@aws-sdk/client-s3";
-import { getFileNameDatePart } from "./utils.js";
+
+import { getFileNameDatePart } from "./utils";
 import {
   AWS_ACCESS_KEY,
   AWS_BUCKET,
   AWS_REGION,
-  AWS_SECRET_ACCESS_KEY
-} from "./envVars.js";
-import { fetchManuals } from "./fetchManuals.js";
+  AWS_SECRET_ACCESS_KEY,
+  PORT
+} from "./envVars";
+import { fetchManuals } from "./fetchManuals";
 
 const app = express();
 const s3 = new S3Client({
@@ -47,8 +49,8 @@ app.post("/upload-pdf", async (req, res) => {
   res.send(`Successfully pushed VFR manual rev. ${filename} on ${AWS_BUCKET}`);
 });
 
-app.listen(3000, async () => {
-  console.info("Server is running on port 3000");
+app.listen(PORT, async () => {
+  console.info(`Server is running on port ${PORT}`);
 
   const revToSkip =
     (
