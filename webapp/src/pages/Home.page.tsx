@@ -15,9 +15,9 @@ import {
   IconChevronLeft,
   IconChevronRight,
   IconHelicopter,
+  IconLock,
   IconPlane,
   IconSearch,
-  IconSquareRoundedX,
   IconZoomPan,
 } from "@tabler/icons-react";
 import { useComputedCache, useStore } from "@api";
@@ -31,7 +31,7 @@ import { emptyArray, useIsMobile, useSmallScreen } from "@lib";
 
 function getAdIcon(input: string) {
   if (input.includes(" HEL ")) return <IconHelicopter />;
-  if (input.includes('"R"')) return <IconSquareRoundedX />;
+  if (input.includes('"R"')) return <IconLock />;
   return <IconPlane />;
 }
 

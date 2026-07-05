@@ -113,9 +113,23 @@ export function buildManualSections(indexes: OutlineMap) {
     .filter((v) => v.endPage);
 }
 
-function getAerodromes(indexes: OutlineMap) {
+function collectAerodromeNodes(indexes: OutlineMap): OutlineMap[] {
+  const out: OutlineMap[] = [];
+  for (const [title, node] of Object.entries(indexes)) {
+    if (title.trim().toUpperCase() === "AERODROMES" && node.children) {
+      out.push(node.children);
+    }
+    if (node.children) out.push(...collectAerodromeNodes(node.children));
+  }
+  return out;
+}
+
+export function getAerodromes(indexes: OutlineMap): OutlineMap {
+  const candidates = collectAerodromeNodes(indexes);
   return (
-    indexes?.["eVFRM Switzerland"]?.children?.["AERODROMES"]?.children ?? {}
+    candidates.sort(
+      (a, b) => Object.keys(b).length - Object.keys(a).length,
+    )[0] ?? {}
   );
 }
 
