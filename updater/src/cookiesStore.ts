@@ -1,6 +1,21 @@
 import { compact } from "lodash-es";
 
 export class CookieManager {
+  // Reserved Set-Cookie attribute names that must never be stored as cookies.
+  private static readonly COOKIE_ATTRIBUTES = new Set([
+    "expires",
+    "max-age",
+    "domain",
+    "path",
+    "secure",
+    "httponly",
+    "samesite",
+    "priority",
+    "partitioned",
+    "comment",
+    "version"
+  ]);
+
   private static concatCookies(arg: [string, string][]) {
     return arg.map(([name, value]) => `${name}=${value}`).join("; ");
   }
@@ -12,13 +27,20 @@ export class CookieManager {
   }
 
   storeCookies(response: Response) {
-    const cookiePairs =
-      response.headers.get("set-cookie")?.split(/,\s(?=[^=]+=[^;]+)/) ?? [];
-    for (const pair of cookiePairs) {
-      const equalIndex = pair.indexOf("=");
-      if (equalIndex > 0) {
-        const name = pair.substring(0, equalIndex);
-        const value = pair.substring(equalIndex + 1).split("; ")[0];
+    // Prefer getSetCookie() which returns each Set-Cookie header separately,
+    // avoiding the classic bug of splitting on the comma inside Expires dates.
+    const headers =
+      typeof response.headers.getSetCookie === "function"
+        ? response.headers.getSetCookie()
+        : compact([response.headers.get("set-cookie")]);
+
+    for (const header of headers) {
+      for (const segment of header.split(";")) {
+        const equalIndex = segment.indexOf("=");
+        if (equalIndex <= 0) continue;
+        const name = segment.substring(0, equalIndex).trim();
+        const value = segment.substring(equalIndex + 1).trim();
+        if (CookieManager.COOKIE_ATTRIBUTES.has(name.toLowerCase())) continue;
         this.cookies.set(name, value);
       }
     }
